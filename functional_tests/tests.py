@@ -34,9 +34,11 @@ class NewVisitorTest(LiveServerTestCase):
         # Rico enters 'dig a rico hole'
         inputbox.send_keys('dig a rico hole')
         
-        # Rico hits enter and the page updates
+        # Rico hits enter and he is taken to a new URL, and now
         # it now has '1: dig a rico hole'
         inputbox.send_keys(Keys.ENTER)
+        rico_list_url = self.browser.current_url
+        self.assertRegex(rico_list_url, '/lists/.+')
         self.check_for_row_in_list_table('1: dig a rico hole')
         
         # Rico enters another item 'swallow the sadness'
@@ -48,18 +50,37 @@ class NewVisitorTest(LiveServerTestCase):
         self.check_for_row_in_list_table('1: dig a rico hole')
         self.check_for_row_in_list_table('2: swallow the sadness')
 
+
+        # A new user, Josh, comes to the site
+
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+        
+        # Josh visits the homepage and doesn't see Rico's list
+        
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('dig a rico hole', page_text)
+        self.assertNotIn('swallow the sadness', page_text)
+
+        # Josh enters a new item
+
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('get gold')
+        inputbox.send_keys(Keys.ENTER)
+
+        # Josh gets his own URL
+        josh_list_url = self.browser.current_url
+        self.assertRegex(josh_list_url, '/lists/.+')
+        self.assertNotEqual(josh_list_url, rico_list_url)
+
+        #Again, there is no trace of Rico's list
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('dig a rico hole', page_text)
+        self.assertIn('get gold', page_text)
+        
         self.fail('Finish the test!')
 
 
-# Rico enters another item 
-# it is 'swallow the sadness'
-
-#the page updates to include both items
-
-#Rico notes the unique url and explantory text
-
-#rico navigates to that url and sees his list
-
-# rico embraces the sadness
 
     
