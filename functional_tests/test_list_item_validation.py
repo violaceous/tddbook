@@ -14,11 +14,11 @@ class ItemValidationTest(FunctionalTest):
         self.assertEqual(error.text, "You can't have an empty list item")
 
         # He enters an item, and it works
-        self.browser.get_item_input_box().send_keys('Pet granola\n')
+        self.get_item_input_box().send_keys('Pet granola\n')
         self.check_for_row_in_list_table('1: Pet granola')
 
         # He tries another blank item
-        self.browser.get_item_input_box().send_keys('\n')
+        self.get_item_input_box().send_keys('\n')
 
         # He receives another warning on the list page
         self.check_for_row_in_list_table('1: Pet granola')
@@ -26,9 +26,9 @@ class ItemValidationTest(FunctionalTest):
         self.assertEqual(error.text, "You can't have an empty list item")
         
         # and he fixes it by adding some text
-        self.browser.get_item_input_box().send_keys('Charlie roll\n')
+        self.get_item_input_box().send_keys('Charlie roll\n')
         self.check_for_row_in_list_table('1: Pet granola')
         self.check_for_row_in_list_table('2: Charlie roll')
 
-        self.fail('write me!')
+
     
