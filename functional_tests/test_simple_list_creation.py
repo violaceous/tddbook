@@ -14,7 +14,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn('To-Do', header_text)
 
         # Rico is prompted to enter a to-do
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         self.assertEqual(
             inputbox.get_attribute('placeholder'), 'Enter a to-do item'
         )
@@ -30,7 +30,7 @@ class NewVisitorTest(FunctionalTest):
         self.check_for_row_in_list_table('1: dig a rico hole')
         
         # Rico enters another item 'swallow the sadness'
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('swallow the sadness')
         inputbox.send_keys(Keys.ENTER)
 
@@ -53,7 +53,7 @@ class NewVisitorTest(FunctionalTest):
 
         # Josh enters a new item
 
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('get gold')
         inputbox.send_keys(Keys.ENTER)
 
