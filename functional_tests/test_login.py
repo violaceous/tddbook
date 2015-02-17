@@ -25,7 +25,7 @@ class LoginTest(FunctionalTest):
         # and notices he can sign in
 
         self.browser.get(self.server_url)
-        self.browser.find_element_by_id('login').click()
+        self.browser.find_element_by_id('id_login').click()
 
         # A Persona login box appears
         self.switch_to_new_window('Mozilla Persona')
@@ -41,6 +41,6 @@ class LoginTest(FunctionalTest):
         self.switch_to_new_window('To-Do')
 
         # Rico can see that he is logged in
-        self.wait_for_element_with_id('logout')
+        self.wait_for_element_with_id('id_logout')
         navbar = self.browser.find_element_by_css_selector('.navbar')
         self.assertIn('sexy_rico@mockmyid.com', navbar.text)
