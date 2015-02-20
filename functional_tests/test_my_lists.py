@@ -25,13 +25,34 @@ class MyListsTest(FunctionalTest):
         ))
 
     def test_logged_in_users_lists_are_saved_as_my_lists(self):
-        email = 'sexy_rico@example.com'
-
-        self.browser.get(self.server_url)
-        self.wait_to_be_logged_out(email)
-
         # Rico is a logged-in user
-        self.create_pre_authenticated_session(email)
+        self.create_pre_authenticated_session('sexy_rico@sexy.com')
         
         self.browser.get(self.server_url)
-        self.wait_to_be_logged_in(email)
+        self.get_item_input_box().send_keys('Finish the bathroom\n')
+        self.get_item_input_box().send_keys('Make Granola dinner\n')
+        first_list_url = self.browser.current_url
+
+        # he sees a "my lists" link
+        self.browser.find_element_by_link_text('My lists').click()
+
+        # he sees that his list is there named according to the first item
+        self.browser.find_element_by_link_text('Finish the bathroom\n').click()
+        self.assertEqual(self.browser.current_url, first_list_url)
+
+        # he starts another list
+        self.browser.get(self.server_url)
+        self.get_item_input_box().send_keys('build a deck\n')
+        second_list_url = self.browser.current_url
+
+        # under my lists the new list appears
+        self.browser.find_element_by_link_text('My lists').click()
+        self.browser.find_element_by_link_text('build a deck\n')
+        self.assertEqual(self.browser.current_url, second_list_url)
+
+        # he logs out and the my lists option goes away
+        self.browser.find_element_by_id('id_logout').click()
+        self.assertEqual(
+            self.browser.find_elements_by_link_text('My lists'), []
+        )
+        

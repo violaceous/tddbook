@@ -62,9 +62,15 @@ LOGGING = {
         'django': {
             'handlers': ['console'],
             },
+        'accounts': {
+            'handlers': ['console'],
+            },
+        'lists': {
+            'handlers': ['console'],
         },
     'root': {'level': 'INFO'},
     }
+}
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
