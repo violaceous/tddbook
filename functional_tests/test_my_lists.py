@@ -38,7 +38,9 @@ class MyListsTest(FunctionalTest):
 
         # he sees that his list is there named according to the first item
         self.browser.find_element_by_link_text('Finish the bathroom').click()
-        self.assertEqual(self.browser.current_url, first_list_url)
+        self.wait_for(
+            lambda: self.assertEqual(self.browser.current_url, first_list_url)
+        )
 
         # he starts another list
         self.browser.get(self.server_url)
@@ -48,7 +50,9 @@ class MyListsTest(FunctionalTest):
         # under my lists the new list appears
         self.browser.find_element_by_link_text('My lists').click()
         self.browser.find_element_by_link_text('build a deck').click()
-        self.assertEqual(self.browser.current_url, second_list_url)
+        self.wait_for(
+            lambda: self.assertEqual(self.browser.current_url, second_list_url)
+        )
 
         # he logs out and the my lists option goes away
         self.browser.find_element_by_id('id_logout').click()
